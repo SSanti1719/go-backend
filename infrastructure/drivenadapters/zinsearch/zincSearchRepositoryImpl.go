@@ -104,15 +104,15 @@ func (z zincSearchRepositoryImpl) httpExec(client *http.Client, query string) ([
 
 	req, err := http.NewRequest(
 		"POST",
-		fmt.Sprintf("%s:%s%s",
-			os.Getenv("DRIVENADAPTER_SYNCSEARCH_HOST"),
-			os.Getenv("DRIVENADAPTER_SYNCSEARCH_PORT"),
-			"/api/emailIndex/_search"),
+		fmt.Sprintf("http://%s:%s%s%s%s",
+			os.Getenv("ZINCSEARCH_IP"),
+			os.Getenv("ZINCSEARCH_PORT"),
+			"/api/", os.Getenv("ZINCSEARCH_INDEX"), "/_search"),
 		strings.NewReader(query))
 	if err != nil {
 		return nil, err
 	}
-	req.SetBasicAuth(os.Getenv("DRIVENADAPTER_SYNCSEARCH_USER"), os.Getenv("DRIVENADAPTER_SYNCSEARCH_PASS"))
+	req.SetBasicAuth(os.Getenv("ZINC_FIRST_ADMIN_USER"), os.Getenv("ZINC_FIRST_ADMIN_PASSWORD"))
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := client.Do(req)
