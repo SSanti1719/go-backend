@@ -65,7 +65,8 @@ func (z zincSearchRepositoryImpl) SearchEmail(messageId string) (*entities.Email
 		QueryString: models.Term{
 			Term: "+messageId:\"" + messageId + "\"",
 		},
-		MaxResults: 20,
+		MaxResults:  20,
+		Sort_fields: []string{"date"},
 	}
 
 	jsonData, err := json.Marshal(query)
@@ -163,8 +164,9 @@ func (z zincSearchRepositoryImpl) getQueryEmail(toEmail string, fromEmail string
 		QueryString: models.Term{
 			Term: queryString,
 		},
-		From:       page * size,
-		MaxResults: size,
+		From:        page * size,
+		MaxResults:  size,
+		Sort_fields: []string{"-date"},
 	}
 
 	jsonData, err := json.Marshal(query)
